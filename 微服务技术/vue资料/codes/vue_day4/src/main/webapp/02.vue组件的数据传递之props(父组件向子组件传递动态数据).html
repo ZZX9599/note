@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue系列课程</title>
+</head>
+<body>
+<div id="app">
+    <h1>{{msg}}</h1>
+
+
+    <!--
+        向子组件传递动态数据  props机制
+          a. 组件标签上声明 key=value    组件内部使用props数组进行声明 对应接收key
+          b. 组件标签上声明 :key="value" 组件内部使用props数组进行声明 对应接收key
+    -->
+    <input type="text" v-model="name">
+    <input type="text" v-model="msg">
+
+    <login :name="name" :msg="msg"></login>
+
+</div>
+</body>
+</html>
+<script src="js/vue.js"></script>
+<script>
+
+
+    const login = {
+        template:`<div><h3>用户登录---{{name}} ----{{msg}}</h3></div>`,
+        props:['name','msg']
+    };
+
+    const app = new Vue({
+        el: "#app",
+        data: {
+            msg: "组件之间数据传递",
+            name:"我是vue实例管理数据"
+        },
+        components:{ //注册局部组件
+          login,
+        }
+    });
+</script>

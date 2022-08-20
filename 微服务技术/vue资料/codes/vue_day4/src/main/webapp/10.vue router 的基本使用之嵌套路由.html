@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue系列课程</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+        <router-link :to="{name:'users'}">用户列表</router-link>
+        <!--展示路由组件-->
+        <router-view></router-view>
+    </div>
+</body>
+</html>
+<template id="users">
+    <div>
+        <h3>用户列表</h3>
+        <a href="#/users/useradd">添加用户信息</a>
+        <table border="1">
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>age</th>
+                <th>salary</th>
+                <th>操作</th>
+            </tr>
+            <tr v-for="user,index in users">
+                <td>{{user.id}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.age}}</td>
+                <td>{{user.salary}}</td>
+                <td><a href="">删除</a> <router-link :to="{name:'useredit',query:{id:user.id}}">修改</router-link></td>
+            </tr>
+        </table>
+        <!--展示子路由组件标签-->
+        <router-view></router-view>
+    </div>
+</template>
+<script src="js/vue.js"></script>
+<script src="js/vue-router.js"></script>
+<script>
+
+
+    //定义用户列表
+    const users = {
+        template:'#users',
+        data(){
+            return {
+                users:[]
+            }
+        },
+        created(){
+            //发送axios请求查询所有
+            this.users = [{id:1,name:'xiaochen',age:23,salary:2300}]
+        }
+    };
+
+    //定义用户添加组件
+    const useradd={
+        template:`<div><form action="">姓名: <input type="text"> <br> 年龄: <input type="text"> <br>  工资: <input type="text"> <br> <input type="submit" value="提交"></form></div>`
+    };
+
+    const useredit={
+        template:`<div><form action="">id: <input type="text" v-model="user.id"> <br> 姓名: <input type="text" v-model="user.name"> <br> 年龄: <input type="text" v-model="user.age"> <br>  工资: <input type="text" v-model="user.salary"> <br> <input type="button" @click="editUser" value="提交"></form></div>`,
+        data(){
+          return {
+              user:{}
+          }
+        },
+        methods:{
+            editUser(){
+                //发送axios请求更新用户
+                // axios.post("url",this.user).then(res=>{
+                //     this.user = {};//清空数据
+                //     this.$router.push({name:'users'})//切换路由
+                // });
+                this.$router.push({name:'users'})//切换路由
+            }
+        },
+        created(){
+            let id = this.$route.query.id;
+            console.log("updated: ",id);
+            //发送axios请求
+            //axios.get("url?id="+id).then(res=>this.user = res.data);
+            this.user = {id:id,name:'xiaochen',age:23,salary:2300};
+        }
+    };
+
+    //定义路由规则对象
+    const router = new VueRouter({
+        routes:[
+            {
+                path:'/users',name:'users',component:users,
+                children:[ //嵌套子组件路由 注意:嵌套路由中子路由不能使用/开头   访问子路由 /users/useradd
+                    {path:'useradd',name:'useradd',component:useradd},
+                    {path:'useredit',name:'useredit',component:useredit},
+                ]
+            },
+        ]
+    });
+
+
+    const app = new Vue({
+        el: "#app",
+        data: {
+            msg:"vue router 基本使用之嵌套路由"
+        },
+        methods:{},
+        router,//注册路由
+    });
+</script>

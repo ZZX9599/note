@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue系列课程</title>
+</head>
+<body>
+<div id="app">
+    <h1>{{msg}} {{count}}</h1>
+
+    <!--
+
+            插槽： slot  
+            作用： 用来扩展现有组件 让组件变得更加灵活  usb 接口
+            具名插槽:  带有名字插槽
+            默认插槽:
+
+    -->
+    <login></login>
+    <hr>
+
+    <login><span slot="bb">欢迎进入我们网站</span></login>
+
+
+    <hr>
+    <login><span slot="aa">welcome to website!!! {{msg}}</span></login>
+    <hr>
+
+    <login><button slot="aa" @click="incrmentCount()">点我</button></login>
+
+</div>
+</body>
+</html>
+<script src="js/vue.js"></script>
+<script>
+
+    const login={
+        template:`<div><slot name="aa"></slot><h3>用户登录</h3><slot name="bb"></slot></div>`
+    };
+
+    const app = new Vue({
+        el: "#app",
+        data: {
+            msg: "组件的slot(插槽)",
+            count:0,
+
+        },
+        methods:{
+            incrmentCount(){
+                this.count++;
+            }
+        },
+        components:{ //注册局部组件
+            login,
+        }
+    });
+</script>

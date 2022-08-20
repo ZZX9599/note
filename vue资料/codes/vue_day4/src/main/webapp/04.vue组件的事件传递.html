@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue系列课程</title>
+</head>
+<body>
+<div id="app">
+    <h1>{{msg}}  {{count}}</h1>
+
+
+    <!--使用组件
+        在使用组件时向组件传递事件  直接在对应组件标签上定义传递事件即可  
+        @key=value  @传递事件名="父组件中传递事件名"
+    -->
+    <login name="小陈" :msg="msg" @testParent="testParent" @bb="testHehe"></login>
+
+</div>
+</body>
+</html>
+<script src="js/vue.js"></script>
+<script>
+
+    const login = {
+        template:`<div><h3>用户登录---{{name}}---{{msg}}</h3> <button @click="testChild">点我去掉父组件中某个事件</button></div>`,
+        data(){
+            return {
+                count:19
+            }
+        },
+        props:['name','msg'],
+        methods:{
+            testChild(){
+                this.$emit('testparent');//这个方法用来调用父组件传递过来事件 参数1:调用事件名
+                alert('我是子组件中定义事件');
+                this.$emit('bb',{count:1,name:"zzx",sex:"男"})
+                //调用父组件中testParent事件
+                //this.$emit('bb',this.count,'xiaochen',true);//传递零散参数
+                //this.$emit('bb',{count:this.count,name:"小陈",sex:true});//传递零散参数
+            }
+        }
+    };
+
+    const app = new Vue({
+        el: "#app",
+        data: {
+            msg: "组件之间事件传递",
+            count:0
+        },
+        methods:{
+            testParent(){
+                alert('我是父组件上事件')
+            },
+            testHehe(obj){
+                console.log("parent:","hehe");
+                console.log("parent:",obj);
+                console.log("parent:",obj.count);
+                console.log("parent:",obj.name);
+                console.log("parent:",obj.sex);
+                this.count = obj.count;
+            }
+        },
+        components:{ //注册局部组件
+            login,
+        }
+    });
+</script>

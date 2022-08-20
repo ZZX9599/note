@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue系列课程</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+        <a href="#/login">用户登录</a>
+        <a href="#/reg">用户注册</a>
+        <!--显示路由组件标签-->
+        <router-view></router-view>
+    </div>
+</body>
+</html>
+<script src="js/vue.js"></script>
+<script src="js/vue-router.js"></script>
+<script>
+
+    //登录组件
+    const login={
+        template:`<div><h3>用户登录</h3></div>`
+    };
+    //注册组件
+    const reg={
+        template:`<div><h3>用户注册</h3></div>`
+    };
+    //404组件
+    const notFound ={
+        template:`<div><h3>404 Not Found!,当前页面走丢了!!!!</h3></div>`
+    };
+
+    //1.创建路由规则对象
+    const router = new VueRouter({
+        routes:[ //配置路由规则  //redirect: 路由重定向
+            {path:'/',redirect:'/login'},
+            {path:'/login',component:login},
+            {path:'/reg',component:reg},
+            {path:'*',component:notFound},//这个路由必须要放在路由规则最后后面
+        ]
+    });
+
+    const app = new Vue({
+        el: "#app",
+        data: {
+            msg:"vue router 基本使用"
+        },
+        methods:{},
+        router,//注册路由
+    });
+</script>

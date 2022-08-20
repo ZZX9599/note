@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程之基础入门</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+        <!--
+            v-for指令:   作用: 用来在页面中实现vue中定义数据的遍历
+                        语法: 直接在对应标签上加入v-for指令
+                             a.遍历对象: v-for="value,key,index in data中变量名"
+                             b.遍历数组: v-for="item(普通类型元素),index in data中变量名"
+                             c.遍历数组对象:  v-for="item(对象),index in data中变量名"
+                            注意: 在使用v-for 建议尽可能在使用 v-for 时提供 key attribute  key属性唯一
+        -->
+
+        <h3>遍历对象</h3>
+        <span v-for="value,key,index in user">   [{{index}} {{key}} {{value}}]  </span>
+
+        <h3>遍历数组</h3>
+        <ul>
+            <li v-for="item,index in schools">{{index+1}}--- {{item}}</li>
+        </ul>
+
+        <h4>遍历数组里面对象</h4>
+        <table border="1" width="100%">
+            <tr>
+                <th>编号</th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>工资</th>
+                <th>简介</th>
+                <th>操作</th>
+            </tr>
+            <tr v-for="user,index in users"  :key="user.id" >
+                <td>{{user.id}}</td>
+                <td v-text="user.name"></td>
+                <td v-html="user.age"></td>
+                <td>{{user.salary}}</td>
+                <td>{{user.content}}</td>
+                <td><a href="">删除</a><a href="">修改</a></td>
+            </tr>
+        </table>
+
+    </div>
+</body>
+</html>
+<!--引入vue.js核心文件-->
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",//代表vue实例作用范围
+        data:{    //用来vue实例绑定数据
+            msg:"hello vue",
+            user:{id:21,name:"xiaochen",age:23,salary:23000.23},//定义一个对象
+            schools:["河南校区","北京校区","天津校区"],
+            users:[
+                {id:21,name:"xiaochen",age:23,salary:23000.23,content:"xiaochen是好人"},
+                {id:22,name:"xiaoming",age:23,salary:23000.23,content:"xiaoming是一个好奥特曼"},
+                {id:23,name:"xiaosan",age:23,salary:23000.23,content:"xiaosan是一个好姑娘"},
+            ]
+        },
+        methods: { //用来给vue实例定义一些列的相关方法
+
+        }
+    });
+</script>

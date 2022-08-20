@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程之基础入门</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+
+        <!--
+            v-bind:    绑定  作用: 用来绑定html标签中某个属性交给vue实例进行管理
+                            好处: 一旦属性交给vue实例进行管理之后,日后可以通过修改vue实例中绑定属性达到动态修改标签属性的效果
+                            语法: 对应标签上 v-bind:属性名
+        -->
+
+        <img v-bind:width="width" v-bind:height="height" v-bind:src="src" @mouseover="changATM" @mouseout="changeMN">
+
+
+        <br>
+        <button @click="changATM">修改为奥特曼</button>
+
+    </div>
+</body>
+</html>
+<!--引入vue.js核心文件-->
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",//代表vue实例作用范围
+        data:{    //用来vue实例绑定数据
+            msg:"hello vue",
+            src:"https://img2.baidu.com/it/u=1909694165,3400923478&fm=26&fmt=auto&gp=0.jpg",
+            width:200,
+            height:200
+        },
+        methods: { //用来给vue实例定义一些列的相关方法
+            changATM(){
+                this.src= "1.jpg";
+                this.width = 150;
+            },
+            changeMN(){
+                this.src="https://img2.baidu.com/it/u=1909694165,3400923478&fm=26&fmt=auto&gp=0.jpg";
+                this.width=200;
+            }
+        }
+    });
+</script>

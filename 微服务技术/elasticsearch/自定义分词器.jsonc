@@ -1,0 +1,169 @@
+
+// 自定义拼音分词器
+PUT /test
+{
+  "settings": {
+    "analysis": {
+      "analyzer": { 
+        "my_analyzer": { 
+          "tokenizer": "ik_max_word",
+          "filter": "py"
+        }
+      },
+      "filter": {
+        "py": { 
+          "type": "pinyin",
+          "keep_full_pinyin": false,
+          "keep_joined_full_pinyin": true,
+          "keep_original": true,
+          "limit_first_letter_length": 16,
+          "remove_duplicated_term": true,
+          "none_chinese_pinyin_tokenize": false
+        }
+      }
+    }
+  }
+}
+
+POST /test/_doc/1
+{
+  "id": 1,
+  "name": "狮子"
+}
+POST /test/_doc/2
+{
+  "id": 2,
+  "name": "虱子"
+}
+
+GET /test/_search
+{
+  "query": {
+    "match": {
+      "name": "掉入狮子笼咋办"
+    }
+  }
+}
+
+// 自动补全的索引库
+PUT test
+{
+  "mappings": {
+    "properties": {
+      "title":{
+        "type": "completion"
+      }
+    }
+  }
+}
+// 示例数据
+POST test/_doc
+{
+  "title": ["Sony", "WH-1000XM3"]
+}
+POST test/_doc
+{
+  "title": ["SK-II", "PITERA"]
+}
+POST test/_doc
+{
+  "title": ["Nintendo", "switch"]
+}
+
+// 自动补全查询
+POST /test/_search
+{
+  "suggest": {
+    "title_suggest": {
+      "text": "s", // 关键字
+      "completion": {
+        "field": "title", // 补全字段
+        "skip_duplicates": true, // 跳过重复的
+        "size": 10 // 获取前10条结果
+      }
+    }
+  }
+}
+
+// 酒店数据索引库
+PUT /hotel
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "text_anlyzer": {
+          "tokenizer": "ik_max_word",
+          "filter": "py"
+        },
+        "completion_analyzer": {
+          "tokenizer": "keyword",
+          "filter": "py"
+        }
+      },
+      "filter": {
+        "py": {
+          "type": "pinyin",
+          "keep_full_pinyin": false,
+          "keep_joined_full_pinyin": true,
+          "keep_original": true,
+          "limit_first_letter_length": 16,
+          "remove_duplicated_term": true,
+          "none_chinese_pinyin_tokenize": false
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id":{
+        "type": "keyword"
+      },
+      "name":{
+        "type": "text",
+        "analyzer": "text_anlyzer",
+        "search_analyzer": "ik_smart",
+        "copy_to": "all"
+      },
+      "address":{
+        "type": "keyword",
+        "index": false
+      },
+      "price":{
+        "type": "integer"
+      },
+      "score":{
+        "type": "integer"
+      },
+      "brand":{
+        "type": "keyword",
+        "copy_to": "all"
+      },
+      "city":{
+        "type": "keyword"
+      },
+      "starName":{
+        "type": "keyword"
+      },
+      "business":{
+        "type": "keyword",
+        "copy_to": "all"
+      },
+      "location":{
+        "type": "geo_point"
+      },
+      "pic":{
+        "type": "keyword",
+        "index": false
+      },
+      "all":{
+        "type": "text",
+        "analyzer": "text_anlyzer",
+        "search_analyzer": "ik_smart"
+      },
+      "suggestion":{
+          "type": "completion",
+          "analyzer": "completion_analyzer"
+      }
+    }
+  }
+}

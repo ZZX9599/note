@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程之基础入门</title>
+</head>
+<body>
+    <div id="app">
+
+        <h1>{{msg}}</h1>
+        <h1>年龄: {{count}}</h1>
+
+        <!--
+                v-on指令: 用来给对应标签绑定特定事件
+                v-on指令简化写法    @  语法: @事件名=事件处理函数名
+        -->
+        <button v-on:click="test">点我年龄+1</button>
+        <!--简化写法-->
+        <button @click="test3(5)">点我年龄+5</button>
+    </div>
+</body>
+</html>
+<!--引入vue.js核心文件-->
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{ //用来定义数据  Model
+            msg:"hello vue",
+            count:0
+        },
+        methods: {//用来定义方法
+            test:function(){
+                this.count++;
+            },
+            test2:function(count){    //原始定义函数: 函数名:function(){}   =====> 简化函数:  函数名(){}
+                this.count+=count;
+            },
+            test3(count){
+                this.count+=count;
+            }
+        }
+    });
+</script>

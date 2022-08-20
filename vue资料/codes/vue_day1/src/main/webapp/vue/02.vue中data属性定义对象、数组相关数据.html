@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程之基础入门</title>
+</head>
+<body>
+    <div id="app">
+
+
+        <h1>{{ schools[0]=='河南校区' }}==== {{ schools[1] }}====== {{ schools[2].length }}</h1>
+
+        <h1>{{ users[1].id }}  ====  {{ users[1].name }} ===== {{ users[2].name}}</h1>
+
+    </div>
+</body>
+</html>
+<!--引入vue.js核心文件-->
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",//指定vue实例作用范围
+        data:{   //用来vue实例定义一系列数据
+            msg:"hello vue",
+            count:0,
+            user: {id: 21, name: "xiaochen", age: 23, salary: 23000.23},
+            schools:["河南校区","北京校区","天津校区"],
+            users:[
+                {id: 21, name: "xiaojin", age: 23, salary: 23000.23},
+                {id: 22, name: "xiaoming", age: 23, salary: 23000.23},
+                {id: 23, name: "xiaohong", age: 23, salary: 23000.23}
+            ]
+        }
+    });
+</script>

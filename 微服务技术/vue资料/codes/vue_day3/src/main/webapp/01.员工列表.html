@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue之系列课程</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <style>
+        .table-bordered {
+            border: 9px solid #23c9ce;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+
+            <!--栅格系统 处理标题-->
+            <div class="row">
+                <div class="col-sm-12" style="text-align: center">
+                    <h1>{{msg}}</h1>
+                </div>
+            </div>
+            <!--处理添加按钮-->
+            <div class="row">
+                <div class="col-sm-12">
+                    <button @click="addRow" class="btn btn-primary btn-sm">添加</button>
+                </div>
+            </div>
+            <br>
+            <!--处理表格-->
+            <div class="row">
+                <div class="col-sm-12">
+                    <table width="100%" class="table table-striped table-bordered table-hover">
+                        <tr>
+                            <th>编号</th>
+                            <th>姓名</th>
+                            <th>年龄</th>
+                            <th>工资</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr v-for="emp,index in emps" style="text-align: center;" :class="index%2==0?'warning':'danger'" :key="emp.id">
+                            <td>{{emp.id}}</td>
+                            <td>{{emp.name}}</td>
+                            <td>{{emp.age}}</td>
+                            <td>{{emp.salary}}</td>
+                            <td>
+                                <a href="javascript:;" @click="delRow(emp.id)" class="btn btn-danger btn-sm">删除</a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:" @click="detailRow(emp.id)" class="btn btn-info btn-sm">修改</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+            <!--处理表单-->
+            <div class="row">
+                <div class="col-sm-12">
+                    <form action="">
+                        <div v-show="emp.id">
+                            <div class="form-group">
+                                <label >编号:</label>
+                                <input type="text" class="form-control" readonly v-model="emp.id">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label >姓名:</label>
+                            <input type="text"  class="form-control" v-model="emp.name">
+                        </div>
+                        <div class="form-group">
+                            <label >年龄:</label>
+                            <input type="text" class="form-control" v-model="emp.age">
+                        </div>
+                        <div class="form-group">
+                            <label >工资:</label>
+                            <input type="text" class="form-control" v-model="emp.salary">
+                        </div>
+                        <input type="button" class="btn btn-info btn-sm btn-block" @click="saveOrEdit" value="提交信息">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="js/axios.min.js"></script>
+<script src="js/vue.js"></script>
+<script>
+
+
+   //创建axios的默认配置对象
+   var instance =  axios.create({
+       timeout:5000,//修改请求超时时间
+       baseURL:"http://localhost:8082"
+   });
+
+
+
+
+   //请求拦截器
+   //响应拦截器
+   instance.interceptors.response.use(res=> {
+       return res;
+   },(err)=>{
+       alert('后端服务出错啦,请稍后再试!!!');
+   });
+
+    var app = new Vue({
+        el:"#app",
+        data:{
+            msg:"员工列表",
+            emps:[],//定义员工列表
+            emp:{},//定义对象
+        },
+        methods:{
+            addRow(){
+              this.emp = {};//赋值为空
+            },
+            delRow(id){//根据id删除员工信息
+                //发送axios请求根据id删除员工信息
+                if(window.confirm("您确定要删除吗?")){
+                    instance.delete("/emp/"+id).then(res=> this.findAll());
+                }
+            },
+            findAll(){ //查询所有
+                instance.get("/emp/").then(res=> this.emps = res.data);
+            },
+            saveOrEdit(){//保存或者编辑
+                if (!this.emp.name) {alert('请输入员工姓名');return false;}
+                if (!this.emp.age) {alert('请输入员工年龄');return false;}
+                if (!this.emp.salary) {alert('请输入员工工资');return false;}
+                //发送axios异步请求,保存员工信息
+                var _this = this;
+                instance.post("/emp",this.emp).then(res=>{
+                    //清空本次保存数据
+                    this.emp = {};
+                    this.findAll();
+                });
+            },
+            detailRow(id){//定义根据id查询一个方法
+                //console.log(id);
+                //发送axios请求,根据查询一个
+                instance.get("/emp/"+id).then((res)=>this.emp = res.data);
+            }
+        },
+        computed:{},
+        //初始化阶段 beforeCreate 内部事件 生命周期 created el data methods computed beforeMount mounted  运行阶段 beforeUpdate updated  销毁阶段 beforeDestroy  destroyed
+        created(){
+            //this.emps=[{id:1,name:"小陈",age:23,salary:23000}];
+            //发送axios请求查询所有员工列表
+            this.findAll();
+        }
+    });
+</script>

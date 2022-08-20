@@ -1,0 +1,125 @@
+1.vue简介
+ 官方定义: 渐进式 javascript框架   ====> 简化页面中js操作
+ 通俗定义: js框架 用来简化页面dom操作,通过使用vue实现页面中复杂功能从而不需要频繁操作dom甚至不需要操作任何dom
+          vue 框架  前后端分离基础
+
+ 特性:     MVVM 双向绑定机制  Model数据变化    <---->   视图View
+
+
+2.Vue第一个入门案例
+
+  <div id="app">
+
+  </div>
+
+  new Vue({
+    el:"#app",用来指定vue实例作用范围
+    data:{ ,//用来给vue实例绑定一些列数据  日后再data声明数据  可以在vue实例作用范围内使用 {{属性名}}方式获取
+
+    }
+  });
+
+  总结:
+        1.一个页面中只能存在一个vue实例
+        2.el代表vue实例作用范围 日后只有在作用范围内才能使用vue相关语法
+        3.data代表vue实例中一系列数据  日后只能在vue作用范围内进行数据获取  获取数据方式 {{属性名}}
+        4.在使用{{属性名}}获取数据时 获取数据可以进行算数  逻辑   调用相关类型相关方法
+        5.el代表vue实例作用范围,el值可以是任何css选择器  但是推荐使用id选择 器
+
+
+3.v-text 、v-html
+    作用: 都是用来获取vue实例中data中声明数据
+    语法: 直接对应标签上加入 v-text="属性名" v-html="属性名"
+
+    v-text、{{}}区别： 1.v-text取值覆盖标签原始内容   {{}}直接将值插入到指定位置  插值表达式
+                      2.v-text在网络条件比较差情况下避免插值闪烁
+
+    v-text、v-html    1.v-text 直接将获取的数据以文本方式渲染到页面中       innerText
+                      2.v-html 获取的数据先进行html标签解析  解析之后在渲染 innerHTML
+
+4.v-on事件绑定
+    事件三要素:  1.事件源   2.事件   3.监听器
+    作用: 用来给html标签绑定指定事件
+
+    简化写法: @
+
+    <button v-on:click="test">点我</button>
+    <button @click="test1">点我</button>
+    <button @click="test1(21)">点我</button>
+    new  Vue({
+        el..
+        data:..
+        methods:{
+            test:function(){
+                //this 代表vue实例
+            },
+            test1(id){
+                //this 代表vue实例
+            }
+        }
+    });
+
+5.v-show v-if指令
+    作用:  都是用来控制html标签哪些显示 哪些不显示
+    语法:  直接在对应标签加入 v-show="true"  v-if="false"
+    区别:  v-if 操作dom   v-show css
+    总结:  变化快 v-show  变化慢 v-if
+    <div v-show="isShow"></div>
+    new  Vue({
+        el..
+        data:{
+            isShow:true
+        }
+        methods:{
+
+        }
+    });
+
+
+6.v-bind 指令
+    作用: 用来将html标签属性绑定vue实例进行管理
+    语法: 绑定那个数据直接在属性前加入 v-bind:属性名="vue管理属性值"
+    简化写法:   v-bind:    简化之后 :
+    <img v-bind:src="src" >
+    <img :src="src" >
+    new  Vue({
+        el..
+        data:{
+            src:"1.jpg"
+        }
+        methods:{
+
+        }
+    });
+
+
+7.v-for指令
+    作用: 用来对vue实例中数据进行循环遍历到指定html标签中
+    语法: 直接在对应标签上使用 对象  数组  数组对象 v-for="(value,key,index) (item,index) (item,index) in vue实例遍历数据"
+
+    <div v-for="(user,index) in users" :key="user.id">
+        {{user.id}}
+    </div>
+    new  Vue({
+        el..
+        data:{
+            users:[{}]
+        }
+        methods:{
+
+        }
+    });
+
+8.v-model 指令
+    作用: 用来将标签value属性绑定给vue实例进行管理
+    注意: 最能直观体现双向绑定原理的指令
+    语法: 直接在对应form表单标签中加入 <input v-model="username"/>
+    new  Vue({
+        el..
+        data:{
+            username:"",
+        }
+        methods:{
+
+        }
+    });

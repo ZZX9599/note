@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程之基础入门</title>
+</head>
+<body>
+    <div id="app" class="aa">
+
+        <h1>{{msg}}</h1>
+
+        <span>{{msg}}</span>
+
+        <h3><span><div>{{msg}} <span><a href="">{{msg}}</a></span></div></span></h3>
+
+        <h4>{{count}}</h4>
+        <h4>{{count+1}}</h4>
+        <h4>{{content}}</h4>
+        <h4>{{content.toUpperCase()}}</h4>
+        <h4>{{content.length}}</h4>
+        <h4>{{content == "hello vue"}}</h4>
+    </div>
+</body>
+</html>
+<!--引入核心js文件-->
+<script src="js/vue.js"></script>
+<!--书写vue的代码-->
+<script>
+    new Vue({
+        el:"#app", //el: element 元素  代表vue实例的作用范围
+        data:{
+            msg:"小陈小陈",
+            count:0,
+            content:"hello vue"
+        }  //data 数据 自定义各种数据
+    });//创建一个vue实例
+</script>
+
+<!--总结
+        1.一个页面中只能存在一个Vue实例  不能创建多个vue实例
+        2.vue实例中el属性代表vue实例的作用范围,日后再vue实例作用范围内可以使用{{data属性中变量名}} 直接获取data中变量名对应属性值
+        3.vue实例中data属性用来给当前vue实例绑定自定义数据,日后绑定数据可以在vue实例作用范围内直接使用 {{变量名}}方式获取
+        4.使用{{}}进行data中数据获取时,可以在{{}}取值语法中进行算数运算 逻辑运算以及调用相关类型的相关方法
+        5.vue实例中el属性可以书写任何css选择器 但是推荐使用id选择器 因为一个vue实例只能作用于一个具体作用范围
+-->

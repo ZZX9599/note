@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程之基础入门</title>
+</head>
+<body>
+    <div id="app">
+
+        <h1>{{msg}}</h1>
+
+        <!--双向绑定机制 MVVM   Model <===> ViewModel(监听器)  <===>  View(视图)-->
+        <h1>{{count}}</h1>
+        <h1>{{count}}</h1>
+
+
+        <button v-on:click="test" v-on:mouseover="test1">点我</button>
+
+    </div>
+</body>
+</html>
+<!--引入vue.js核心文件-->
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{ //用来定义数据  Model
+            msg:"hello vue",
+            count:23,
+        },
+        methods:{//用来定义方法
+            test:function(){
+                //如果在vue定义方法中获取data中数据 注意:在自定义方法中可以直接使用this,this代表当前vue实例
+                console.log(this);
+                console.log(this.msg);
+                console.log(this.count);
+                //this.count = this.count+1;
+                this.count++;
+                //触发aa事件
+                this.aa();
+            },
+            test1:function(){
+                console.log('test1 mouseover');
+            },
+            aa:function(){
+                console.log("aaa");
+            }
+        }
+    });
+</script>

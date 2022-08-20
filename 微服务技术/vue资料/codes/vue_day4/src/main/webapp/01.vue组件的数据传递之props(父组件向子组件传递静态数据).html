@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue系列课程</title>
+</head>
+<body>
+<div id="app">
+    <h1>{{msg}}</h1>
+
+    <!--使用组件
+        props 传递静态数据: 就是写死一个数据     动态数据:数据可变得
+
+        父组件向子组件传递数据:
+            a.传递静态数据   在组件使用标签上 声明静态数据  key=value  在组件定义内部使用props进行接收数据才可以
+    -->
+
+    <!--用户登录-->
+    <login title="我是标题" count="0"></login>
+
+
+
+</div>
+</body>
+</html>
+<script src="js/vue.js"></script>
+<script>
+
+
+    //定义组件对象
+    const login = {
+        template:`<div><h3>用户登录----{{title}}---{{loginTitle}}---{{count}}</h3></div>`,
+        data(){
+            return {
+                //title:"我是子组件内部标题"
+                loginTitle:this.title,
+            }
+        },
+        props:['title','count'],//用来接收父组件给当前组件传递数据  注意:props机制接收数据就相当于自己组件data中声明一个这样数据
+    };
+
+
+
+
+    const app = new Vue({
+        el: "#app",
+        data: {
+            msg: "组件之间数据传递"
+        },
+        components:{ //注册局部组件
+           login, //注册局部组件login
+        }
+    });
+</script>

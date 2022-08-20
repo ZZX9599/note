@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue之系列课程</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+        <!--登录-->
+        <login></login>
+        <!--注册-->
+        <register></register>
+
+        <!--用户添加-->
+        <add></add>
+
+    </div>
+</body>
+</html>
+<script src="js/axios.min.js"></script>
+<script src="js/vue.js"></script>
+<script>
+
+
+    //1.定义一个全局组件 参数1:组件名称  参数2: 组件的配置对象
+    Vue.component('login',{
+        template:`<div><h2>用户登录</h2> <form action=""></form></div>`,//用来书写该组件的html代码
+    });
+
+    Vue.component('register',{
+        template:`<div><h2>用户注册</h2>  <form action=""></form></div>`
+    });
+
+
+    const app = new Vue({
+        el:"#app",
+        data:{
+            msg:"Vue 中组件使用"
+        },
+        methods:{},
+        computed:{},
+        components:{ //注册局部组件
+            add:{    //添加局部组件
+                template:`<div><h2>用户添加</h2> <form action=""></form></div>`
+            }
+        }
+    });
+</script>

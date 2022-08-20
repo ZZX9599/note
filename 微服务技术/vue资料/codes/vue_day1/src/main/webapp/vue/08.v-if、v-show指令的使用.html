@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程之基础入门</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+        <!--
+            v-if 、 v-show指令：   作用： 用来通过vue方式控制页面中哪些标签展示和隐藏
+                                  语法: 控制那个标签显示隐藏直接在那个标签上 加入v-if="true|false|逻辑运算表达式" v-show="true|false"
+                                  区别:
+                                        1.v-if 底层通过控制dom树上元素节点实现 页面标签展示和隐藏      dom树
+                                        2.v-show 底层通过控制标签css中display属性实现标签展示和隐藏   css样式
+
+                                  使用总结:
+                                    一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则使用 v-if 较好
+                                    变化快 用v-show  变化慢  v-if
+        -->
+
+        <h2 name="if" v-if="isShow">{{msg}}</h2>
+
+        <h2 name="show" v-show="isShow">{{msg}}</h2>
+
+    </div>
+</body>
+</html>
+<!--引入vue.js核心文件-->
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",//代表vue实例作用范围
+        data:{    //用来vue实例绑定数据
+            msg:"hello vue",
+            isShow:true
+        },
+        methods: { //用来给vue实例定义一些列的相关方法
+
+        }
+    });
+</script>

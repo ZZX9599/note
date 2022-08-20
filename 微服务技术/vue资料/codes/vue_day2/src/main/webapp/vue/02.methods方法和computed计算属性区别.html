@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}  {{counts}} {{counts}} {{counts}}{{counts}}{{counts}}{{counts}}{{counts}}</h1>
+
+
+        <!--
+            computed:  计算属性  推荐
+                作用:  用来在vue实例中完成相关业务计算工作    日后在将某个数据渲染页面时如果该数据需要经过业务处理之后再渲染就可以使用computed
+                好处:  提升vue运行性能  主要使用computed进行计算相关处理 会将第一次计算结果进行缓存,便于日后页面多次使用
+                使用:  {{属性名}}
+        -->
+        
+        编号: <input type="text" v-model="item.id">
+        名称: <input type="text" v-model="item.name">
+        价格: <input type="text" v-model="item.price">
+        数量: <input type="text" v-model="item.count">
+        <button @click="addCart">添加到购物车</button>
+
+        <br>
+        <br>
+        <br>
+        3 <br>
+        <table border="1">
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>价格</th>
+                <th>购买数量</th>
+                <th>小计</th>
+            </tr>
+            <tr v-for="item,index in items" :key="item.id">
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.price}}</td>
+                <td><input type="button" value="+" @click="incrementCount(index)"> {{item.count}} <input type="button" @click="decrementCount(index)" value="-"></td>
+                <td>{{(item.count * item.price).toFixed(2)}}</td>
+            </tr>
+        </table>
+        <h3>总价格: {{ totalPrice }} </h3>
+
+
+        <h3>总价格: {{ totalPrice }} </h3>
+
+        <h3>总价格: {{ totalPrice }} </h3>
+
+        <h3>总价格: {{ totalPrice }} </h3>
+
+        <h3>总价格: {{ totalPrice }} </h3>
+
+        <h3>总价格: {{ totalPrice }} </h3>
+    </div>
+</body>
+</html>
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            msg:"购物车案例之computed",
+            count:0,
+            item:{},
+            items:[
+                {id:1,name:"iphone8",price:19.9,count:1},
+                {id:2,name:"meta40 pro",price:15.0,count:1},
+            ]
+        },
+        methods:{ //定义一系列方法
+            incrementCount(idx){//增加数量
+                //console.log(idx);
+                //console.log(this.items[idx]);
+                this.items[idx].count++;
+            },
+            decrementCount(idx){
+                if(!(this.items[idx].count>1)){
+                    alert('购买商品不能少于1件!!!');
+                    return false;
+                }
+                this.items[idx].count--;
+            },//减少数量
+            totalPriceMethods(){
+                console.log("==============methods==============");
+                //计算总价格
+                var totalPrice = 0;
+                for (var i = 0; i < this.items.length; i++) {
+                    totalPrice += this.items[i].count * this.items[i].price;
+                }
+                return totalPrice.toFixed(2);
+            },
+            addCart(){//添加购物车方法
+                console.log(this.item);
+                if(!this.item.id){alert('请输入编号!');return false;}
+                if(!this.item.name){alert('请输入名称!');return false;}
+                if(!this.item.price){alert('请输入价格!');return false;}
+                if(!this.item.count){alert('请输入数量!');return false;}
+                if(!(this.item.count>0)){alert('请输入正确数量!');return false;}
+                this.items.push(this.item);//放入数组
+            },
+            // counts(){
+            //     console.log("methods.counts&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+            //     return this.count+10;
+            // }
+        },
+        computed:{ //计算属性
+            counts(){
+                console.log("computed.counts----------------------");
+                return this.count+10;
+            },
+            totalPrice(){
+                //调用methods
+                return this.totalPriceMethods()
+
+                //自己计算
+                // console.log("==============computed==============");
+                // //计算总价格
+                // var totalPrice = 0;
+                // for (var i = 0; i < this.items.length; i++) {
+                //     totalPrice += this.items[i].count * this.items[i].price;
+                // }
+                // return totalPrice.toFixed(2);
+            },
+
+        }
+    })
+</script>

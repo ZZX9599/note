@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue之系列课程</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+        <!--ES6: EcmaScript 6.x ====> javascript chrome  jscript ie =====> ECMAScript 到今天js依然存在浏览器
+            EcmaScript: 1.x=====> 7.x  8.x  ES11.x
+            EcmaScript: 5.x   通用版5.x
+            EcmaScript: 6.x   简称 ES6
+
+            1.ES6中变量声明
+         -->
+
+    </div>
+</body>
+</html>
+<script src="js/axios.min.js"></script>
+<script src="js/vue.js"></script>
+<script>
+
+
+
+    //es6 1.变量声明  var  原因: 使用var声明变量存在作用范围混淆问题
+    //               let     :用来声明局部变量   好处: 作用范围严谨 从代码声明出开始 到代码块结束  一般在声明基本变量使用推荐使用let
+    //               const   :用来声明js中常量   好处: 一旦被赋值不能被修改   推荐使用这两个关键字声明变量 声明js中对象时推荐使用const 数组
+
+
+    //es6 2.在使用匿名函数时作为参数时候 function(){}   推荐使用es6中箭头函数  (参数,参数)=>{函数体}
+
+    //axios.get("url").then(function(res){}).catch(function(err){});
+    // axios.get("url").then((res)=>{
+    //
+    // }).catch((err)=>{});
+    //注意:
+    //      1.当箭头函数没有参数时或者参数大于1个 必须加入()
+    //      2.当箭头函数只有一个参数时 () 可以省略不写
+    //      3.当函数体中只有一行代码时 函数体{} 可以省略不写
+    //      4.箭头函数和匿名函数最大区别  箭头函数没有自己this   匿名函数存在自己的this
+
+    //es6 3. 模板字符串   使用语法:  ` `
+    let html = "<button onclick=\"test('+id+')\">点我</button>" +
+               "<button onclick=\"test('+id+')\">点我</button>" +
+               "<button onclick=\"test('+id+')\">点我</button>" +
+               "<button onclick=\"test('+id+')\">点我</button>" +
+               "<button onclick=\"test('+id+')\">点我</button>" +
+              "<button onclick=\"test('+id+')\">点我</button>";
+
+
+    let html1 = `<div>
+                    <h1>我是小黑</h1>
+                    <button onclick="test()">点我</button>
+                </div>`;
+    console.log(html1);
+
+    //console.log(html);
+
+    //es6  对象定义  便利: 在定义对象时如果对象属性名和变量名一致,写一个即可
+    let id = 21;
+    let name = "小三";
+    let age = 23;
+    //es5.x
+    const emp = {id:id,name:name,age:age};
+    console.log("es5",emp);
+    //es6.x
+    const emp1 = {id,name,age}
+    console.log("es6",emp1);
+
+    function test(){
+        for (let i = 0; i < 10; i++) {
+            console.log("for in",i);
+        }
+        // const name = "xiaochen";
+        // console.log(name);
+        // name = "xiaosan";
+        //console.log("for out",i);
+        //定义一个对象  const在定义对象时指的是对象的地址不变 对象中属性可以改变
+        const student = {id:21,name:"xiaosan"};
+        console.log(student);
+        student.name="xiaohong";
+        console.log(student);
+        student.age=23;
+        console.log(student);
+        //定义一个数组 const在定义数组时指的数组地址不能改变  但是数组中元素可以改变
+        const schools = ["北京","天津"];
+        console.log(schools);
+        schools.push("河南");
+        console.log(schools);
+    }
+
+    test();//调用函数
+
+    const app = new Vue({
+        el:"#app",
+        data:{
+            msg:"ES6基本语法"
+        },
+        methods:{
+
+        },
+        computed:{},
+    });
+</script>

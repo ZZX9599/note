@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程之基础入门</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+
+        <!--管理状态-->
+        <h2 v-show="isShow">{{msg}}</h2>
+
+        <button @click="hideH2">用来隐藏h2标签</button>
+        <button @click="showH2">用来显示h2标签</button>
+        <button @click="showHideH2">用来展示|隐藏h2标签(方法)</button>
+
+        <button @click="isShow=!isShow">用来展示|隐藏h2标签(直接操作data中属性)</button>
+
+
+    </div>
+</body>
+</html>
+<!--引入vue.js核心文件-->
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",//代表vue实例作用范围
+        data:{    //用来vue实例绑定数据
+            msg:"hello vue",
+            isShow:true
+        },
+        methods: { //用来给vue实例定义一些列的相关方法
+            hideH2(){
+                this.isShow = false;
+            },
+            showH2(){
+                this.isShow = true;
+            },
+            showHideH2(){
+                this.isShow = !this.isShow;
+                // if(this.isShow){
+                //     this.isShow=false;
+                // }else{
+                //     this.isShow=true;
+                // }
+            }
+        }
+    });
+</script>

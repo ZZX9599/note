@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!--
+            事件修饰符: 用来对事件一些列描述修饰
+            按键修饰符: 用来对键盘按键事件进行修饰 修饰符
+                       keyup keydown ...
+
+                .enter   对键盘回车键修饰
+                .tab     对键盘切换tab按键修饰
+                .delete (捕获“删除”和“退格”键)
+                .esc     对键盘esc按键修饰
+                .space   对键盘的空格按键修饰
+                .up      对 上
+                .down    下
+                .left    左
+                .right   右
+        -->
+
+        <input type="text" v-model="name" @keyup.enter.tab.delete.esc.space.up.down.left.right="keyup">
+
+
+        <input type="text" @keyup.enter="test">
+
+    </div>
+</body>
+</html>
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            msg:"按键修饰符",
+            name:""
+        },
+        methods:{
+            keyup(){
+                console.log(this.name);
+            },
+            test(){
+                console.log("test");
+            }
+        },
+        computed:{},//用来在vue实例中定义一些列计算属性    {{属性名}}
+    })
+</script>

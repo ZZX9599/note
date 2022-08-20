@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程</title>
+</head>
+<body>
+    <div id="app">
+        <h1>Axios的基本使用</h1>
+
+    </div>
+</body>
+</html>
+<script src="js/axios.min.js"></script>
+<script>
+
+    //发送axios的get方式请求
+/*
+    axios.get("http://localhost:8081/demo?id=21&name=xiaochen").then(function(res){
+        console.log(res);
+        console.log(res.data);
+    }).catch(function (err) {
+        alert('进入catch')
+        console.log(err);
+    });
+*/
+
+    //发送一个post方式请求
+    // axios.post("http://localhost:8081/test",{id:21,name:"xiaochen"}).then(function(res){
+    //     console.log(res);
+    //     console.log(res.data);//响应结果
+    // }).catch(function(err){
+    //     console.log(err);
+    // });
+
+    //发送put方式请求
+    // axios.put("http://localhost:8081/test1",{id:22,name:"小三"}).then(function(res){
+    //     console.log(res);
+    //     console.log(res.data);//响应结果
+    // }).catch(function(err){
+    //     console.log(err);
+    // });
+
+
+
+
+    //创建axios的配置对象
+    var instance = axios.create({
+        baseURL:"http://localhost:8081/",
+        timeout: 5000,
+    });
+
+
+    //请求拦截器
+    instance.interceptors.request.use(function (config) {
+        if(config.url.indexOf("?")==-1){
+            config.url+="?token=1234"
+        }else{
+            config.url +="&token=1234";
+        }
+        return config;
+    });
+
+
+    //响应拦截器
+    instance.interceptors.response.use(function (response) {
+        if(response.status==500){
+            alert('服务器出现错误!');
+        }
+        return response;
+    });
+
+
+    //发送get方式请求
+    instance.get("/demo?id=11&name=xiaochen").then(function(res){
+        console.log(res.data);
+    });
+
+
+    instance.post("http://localhost:8081/test",{id:21,name:"xiaochen"}).then(function(res){
+        console.log(res.data);
+    });
+
+
+
+
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程之基础入门</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+        <!--
+            v-bind:   绑定  作用:  用来将html标签的属性进行绑定,交给vue实例管理  除了value属性以外所有属性
+            v-model:  模型  作用:  用来将html标签的value属性进行绑定,交给vue实例管理    主要用在表单元素上  最能体现双向绑定机制一个指令\
+                      语法: 在表单元素标签上 直接加入 v-model="vue实例中一个变量"
+        -->
+
+        <input type="text" v-model="msg">
+
+    </div>
+</body>
+</html>
+<!--引入vue.js核心文件-->
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",//代表vue实例作用范围
+        data:{    //用来vue实例绑定数据
+            msg:"hello vue111",
+        },
+        methods: { //用来给vue实例定义一些列的相关方法
+        }
+    });
+</script>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue系列课程</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+        <!--标签形式切换路由
+            地址栏传递参数分为两种方式:
+               1.queryString ?              this.$route.query.key
+               2.restful  路径传递参数 /xx/21 this.$route.params.key
+        -->
+        <a href="#/login?name=xiaochen&password=123">用户登录</a>
+        <a href="#/register/21/xiaochen">用户注册</a>
+
+
+        <!--query-->
+        <router-link to="/login?name=xiaohei&password=123456">用户登录</router-link>
+        <router-link :to="{path:'/login',query:{name:'xiaohong',password:123456}}">用户登录</router-link>
+        <router-link :to="{name:'Login',query:{name:'xiaohei',password:123456}}">用户登录</router-link>
+
+
+        <!--restful-->
+        <router-link :to="{path:'/register/22/xiaojindou'}">用户注册</router-link>
+        <router-link :to="{name:'Register',params:{id:233,name:'xiaojinniu'}}">用户注册</router-link>
+
+
+        <!--展示路由组件标签-->
+        <router-view/>
+    </div>
+</body>
+</html>
+<script src="js/vue.js"></script>
+<script src="js/vue-router.js"></script>
+<script>
+
+    //login
+    const login =  {
+        template:`<div><h4>用户登录</h4></div>`,
+        created(){ //声明周期 在执行已经组件内部事件 和 声明周期函数注册 自身 data methods computed属性注入和校验
+            console.log("created");
+            console.log(this.$route);//获取当前路由对象
+            console.log(this.$route.query.name);//获取当前路由对象
+            console.log(this.$route.query.password);//获取当前路由对象
+        }
+    };
+    //register
+    const register =  {
+        template:`<div><h4>用户注册</h4></div>`,
+        created(){
+            console.log(this.$route);
+            console.log(this.$route.params.id);
+            console.log(this.$route.params.name);
+        }
+    };
+
+    //1.创建路由规则对象
+    const router = new VueRouter({
+        routes:[
+            //name:这个属性代表路由对象名称  用来给路由对象一个唯一名称标识
+            {path:'/login',component:login,name:'Login'},
+            {path:'/register/:id/:name',component:register,name:'Register'},
+        ]
+    });
+
+
+    const app = new Vue({
+        el: "#app",
+        data: {
+            msg:"vue router 基本使用之参数传递"
+        },
+        methods:{},
+        router,//注册路由对象
+    });
+</script>

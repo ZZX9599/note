@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue系列课程</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+
+        <!--切换路由: 1.通过标签直接切换   2.在js代码中切换-->
+        <router-link :to="{name:'Login'}">用户登录</router-link>
+        <router-link :to="{name:'Register'}">用户注册</router-link>
+
+
+        <!--2.在js代码中切换路由-->
+        <button @click="login">用户登录</button>
+        <button @click="register">用户注册</button>
+
+        <!--展示路由组件标签-->
+        <router-view/>
+    </div>
+</body>
+</html>
+<script src="js/vue.js"></script>
+<script src="js/vue-router.js"></script>
+<script>
+
+    //login
+    const login =  {
+        template:`<div><h4>用户登录</h4></div>`
+    };
+    //register
+    const register =  {
+        template:`<div><h4>用户注册</h4></div>`
+    };
+
+    //1.创建路由规则对象
+    const router = new VueRouter({
+        routes:[
+            //name:这个属性代表路由对象名称  用来给路由对象一个唯一名称标识
+            {path:'/login',component:login,name:'Login'},
+            {path:'/register',component:register,name:'Register'},
+        ]
+    });
+
+
+    //解决同一个路由多次切换报错的问题
+    const originalPush = VueRouter.prototype.push;
+    VueRouter.prototype.push = function push(location) {
+        return originalPush.call(this, location).catch(err => err)
+    };
+
+    const app = new Vue({
+        el: "#app",
+        data: {
+            msg:"vue router 基本使用之在js代码中切换路由"
+        },
+        methods:{
+            login(){
+                //发送axios请求完成登录 响应回来之后切换路由到主页
+                //this.$route object 当前路由对象   this.$router vueRouter  代表路由管理器对象
+                //console.log(this.$route.name);
+                //this.$router.push('/login');//切换路由
+                //this.$router.push({path:'/login'});
+                //在vuerouter 中多次切换相同路由出现错误 1.每次切换之前手动判断   2.加入官方一段配置解决错误问题
+                // if(this.$route.name!='Login'){
+                //     this.$router.push({name:'Login'});//使用名称切换
+                // }
+                this.$router.push({name:'Login'});//使用名称切换
+            },
+            register(){
+                //console.log(this.$route.name);
+                // if(this.$route.name!='Register') {
+                //     this.$router.push({name: 'Register'});//使用名称切换
+                // }
+                this.$router.push({name: 'Register'});//使用名称切换
+            }
+        },
+        router,//注册路由对象
+    });
+</script>

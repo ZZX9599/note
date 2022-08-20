@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue之系列课程</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+        <!--使用组件: 直接通过组件名-->
+        <login></login>
+
+
+        <register></register>
+
+
+    </div>
+</body>
+</html>
+<script src="js/axios.min.js"></script>
+<script src="js/vue.js"></script>
+<script>
+
+
+    Vue.component('register',{
+        template:`<div><h3>我是注册</h3><span>{{msg}}</span></div>`,
+        data(){
+            return {
+                msg:"我是注册全局组件中数据"
+            }
+        }
+    });
+
+    //登录组件配置对象
+    const login = {
+        template:`<div id="aa">
+                  <h2>用户登录</h2>
+                  <h2>{{counter}}---{{msg}}---{{counterSqrt}}---{{counterSqrt}}----{{counterSqrt}}</h2>
+                  <button @click="test(10)">点我counter++</button>
+                  <aa></aa>
+                  <register></register>
+                  </div>`, //用来书写组件html代码
+        data(){ //用来给当前组件定义属于组件自己数据  组件中定义数据  data必须是一个函数
+           return {
+               counter:1,
+               msg:"我是组件msg"
+           }
+        },
+        methods:{ //用来给组件自己定义一些列方法
+            test(count){
+                this.counter+=count;
+            }
+        },
+        computed:{ //用来给组件自己定义一些列计算方法
+            counterSqrt(){
+                return this.counter*this.counter;
+            }
+        },
+        //初始化阶段
+        beforeCreate(){
+            console.log("beforeCreate:",this.msg);},
+        created(){
+            console.log("created:",this.msg);
+        },
+        beforeMount(){ //此时组件中template还是模板还没有渲染
+            console.log(this);
+            //console.log("beforeMount:",this.$el.innerHTML);
+        },
+        mounted(){  // 此时组件中页面的数据已经和data中数据一致
+            console.log("mounted:",document.getElementById("aa").innerHTML);
+        },
+        //运行阶段
+        beforeUpdate(){// 此时data中数据变化了  页面数据还是原始数据
+            console.log("beforeUpdate:",this.counter);
+            console.log("beforeUpdate:",document.getElementById("aa").innerHTML);
+        },
+        updated(){  //此时data 页面数据一致
+            console.log("updated:",this.counter);
+            console.log("updated:",document.getElementById("aa").innerHTML);
+        },
+        //销毁阶段
+        beforeDestroy(){},
+        destroyed(){},
+        components:{
+            aa:{  //定义组件
+                template:'<div><span>我是aa子组件</span></div>'
+            },
+        }
+    };
+
+    const app = new Vue({
+        el:"#app",
+        data:{
+            msg:"Vue的组件中定义组件 Data  methods Computed等"
+        },
+        methods:{},
+        computed:{},
+        components:{ //用来定义局部组件
+            login,
+        }
+    });
+</script>

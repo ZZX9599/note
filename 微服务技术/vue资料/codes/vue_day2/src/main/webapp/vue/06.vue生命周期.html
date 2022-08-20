@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程</title>
+</head>
+<body>
+    <div id="app">
+        <h1 id="h1">{{msg}}</h1>
+        <input type="text" v-model="msg">
+
+        <table> 数据 v-for</table>
+    </div>
+</body>
+</html>
+<script src="js/vue.js"></script>
+<script>
+    //在vue实例生命周期过程中官方提供一系列声明周期函数 钩子:  这些生命周期函数最大特点伴随着vue实例过程自动触发的
+    //vue 实例生命周期阶段:  1.初始化阶段   2.运行阶段   3.销毁阶段
+    var app = new Vue({
+        el:"#app",
+        data:{
+            msg:"vue生命周期",
+            users:[],
+        },
+        methods:{},
+        computed:{},
+        //初始化阶段
+        beforeCreate(){//第一个生命周期函数  这个函数执行时 仅仅完成自身内部事件和生命周期函数注入
+            console.log("beforeCreate:",this.msg);
+        },
+        created(){//第二个生命周期函数      这个函数执行时 完成自身内部事件和生命周期函数注入 包括自定义data methods computed等属性注入和校验工作
+            console.log("created:",this.msg);
+            //var _this = this;
+            //axios.get().then(function(response){_this.users = response.data})
+        },
+        beforeMount(){//第三个生命周期函数  这个函数执行时 el执行html还是一个原始模板 并没有完成数据渲染工作
+            console.log("beforeMount:",document.getElementById("h1").innerText);
+        },
+        mounted(){//第四个生命周期函数   这个函数执行时 vue已经完成template和el执行html渲染工作
+            console.log("beforeMount:",document.getElementById("h1").innerText);
+        },
+        //运行阶段
+        beforeUpdate(){ //运行阶段第一个函数  这个函数执行时  data数据发生变化,此时页面数据还是原始数据
+            console.log("beforeUpdate data:", this.msg);
+            console.log("beforeUpdate view:",document.getElementById("h1").innerText);
+        },
+        updated(){//运行阶段第二个函数  这个函数执行时  data数据页面数据保持一致
+            console.log("updated data:", this.msg);
+            console.log("updated view:",document.getElementById("h1").innerText);
+        },
+        //销毁阶段
+        beforeDestroy(){//销毁时第一个函数 这个函数执行时 vue实例刚刚开始销毁
+            console.log("beforeDestroy:","开始销毁");
+        },
+        destroyed(){
+            console.log("destroyed:","全部销毁");
+        }
+
+    })
+</script>

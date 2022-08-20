@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程之基础入门</title>
+</head>
+<body>
+    <div id="app">
+
+
+        <!--
+            1.备忘录列表中数据交给vue管理
+            2.添加备忘录
+            3.删除备忘录
+            4.清空备忘录
+            5.备忘录总条数
+        -->
+
+        请输入内容: <input type="text" v-model="content"> <button @click="saveContent">添加到备忘录</button><br>
+
+        <ul v-if="lists.length!=0">
+            <li v-for="(content,index) in lists" :key="index">{{index+1}}. {{content}} <a href="javascript:;" @click="delContent(index)">删除</a></li>
+        </ul>
+
+        <ul v-if="lists.length==0">
+            <li><span style="color:red;">当前备忘录中还没有任何数据!!!</span></li>
+        </ul>
+
+
+        <a v-show="lists.length!=0" href="javascript:;" @click="lists=[]">清空备忘录</a>
+
+        <h3>当前备忘录共: {{lists.length}} 条</h3>
+
+
+    </div>
+</body>
+</html>
+<!--引入vue.js核心文件-->
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+      el:"#app",
+      data:{
+          lists:["今天晚上吃好吃的,吃什么,吃烤鸭","今天晚上一起打游戏","今天晚上一起学习"],//定义原始备忘列表
+          content:"",
+      },
+      methods:{
+          saveContent(){//保存方法
+              if(!this.content){alert('请输入内容...');return false;}
+              this.lists.push(this.content);
+              this.content="";
+          },
+          delContent(index){
+              //console.log(index);
+              this.lists.splice(index,1);//根据下标删除  参数1:从哪个位置开始删除   参数2:删除几个
+          }
+      }
+    })
+</script>

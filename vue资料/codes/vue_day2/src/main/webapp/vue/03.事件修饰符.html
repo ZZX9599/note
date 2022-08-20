@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+
+        <button @click="test">点我</button>
+
+        <!--事件修饰符
+            .stop     作用: 用来阻止事件冒泡  用来阻止事件继续向外传递
+            .prevent  作用: 用来阻止标签的默认行为
+            .self     作用: 只监听自身标签触发的事件
+            .once     作用: 该事件只触发一次
+
+            语法:      @事件名事件修饰符="事件处理函数"======> @click.stop="test"
+        -->
+
+        <h3>stop修饰符</h3>
+        <div style="width: 200px;height: 200px;background: red" @click="parent">
+
+            <div style="width: 100px;height: 100px;background: aquamarine" @click.stop="child">
+
+                <div style="width: 50px;height: 50px;background:royalblue" @click="child1">
+
+                </div>
+
+            </div>
+
+        </div>
+        <h3>prevent修饰符</h3>
+        <a href="http://www.baidu.com" @click.prevent="testa">点我</a>
+        <a href="javascript:;" @click.prevent="testa">点我</a>
+
+        <h3>self修饰符(事件修饰符可以连用)</h3>
+        <div style="width: 200px;height: 200px;background: red" @click.self="parent">
+
+            <div style="width: 100px;height: 100px;background: aquamarine" @click.self.stop="child">
+
+                <div style="width: 50px;height: 50px;background:royalblue" @click="child1">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <h3>once修饰符</h3>
+        <button @click.once="test">点我我是按钮,我的单击支触发一次</button>
+
+
+
+    </div>
+</body>
+</html>
+<script src="js/vue.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            msg:"事件修饰符"
+        },
+        methods:{
+            test(){
+                console.log("test");
+            },
+            parent(){
+                console.log("parent");
+            },
+            child(){
+                console.log("child");
+            },
+            child1(){
+                console.log("child1");
+            },
+            testa(){
+                console.log("testa");
+            }
+        },
+        computed:{},//用来在vue实例中定义一些列计算属性    {{属性名}}
+    })
+</script>
